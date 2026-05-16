@@ -1,4 +1,3 @@
-
 provider "aws" {
   region = var.aws_region
 }
@@ -18,12 +17,17 @@ terraform {
 # for the IAM identity running Terraform.
 provider "helm" {
     kubernetes = {
-      host = data.aws_eks_cluster.eks.endpoint
-      cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+      host = data.terraform_remote_state.eks.outputs.endpoint
+      cluster_ca_certificate = base64decode(data.terraform_remote_state.eks.outputs.ca)
       token = data.aws_eks_cluster_auth.eks.token
     }
 }
 
 module "metrics-server" {
-    source = "../../../../modules/addons/metrics-server"
+    source = "../../../modules/addons/metrics-server"
+}
+
+module "cluster-autoscaler" {
+  source = "../../../modules/addons/cluster-autoscalar"
+  eks_cluster_name = data.terraform_remote_state.eks.outputs.eks_cluster_name
 }

@@ -30,7 +30,7 @@ resource "aws_subnet" "public" {
     Name = "${var.env}-${each.key}-${each.value.az}"
     Type = "public"
     "kubernetes.io/role/elb" = "1"
-    "kubernetes.io/cluster/${var.env}-${var.eks_name}" = "owned"
+    "kubernetes.io/cluster/${var.eks_name}" = "owned"
   }
 }
 
@@ -45,7 +45,7 @@ resource "aws_subnet" "private" {
     Name = "${var.env}-${each.key}-${each.value.az}"
     Type = "private"
     "kubernetes.io/role/internal-elb" = "1"
-    "kubernetes.io/cluster/${var.env}-${var.eks_name}" = "owned"
+    "kubernetes.io/cluster/${var.eks_name}" = "owned"
   }
 }
 
