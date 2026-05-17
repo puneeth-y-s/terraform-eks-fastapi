@@ -24,10 +24,18 @@ provider "helm" {
 }
 
 module "metrics-server" {
-    source = "../../../modules/addons/metrics-server"
+  source = "../../../modules/addons/metrics-server"
 }
 
 module "cluster-autoscaler" {
   source = "../../../modules/addons/cluster-autoscalar"
   eks_cluster_name = data.terraform_remote_state.eks.outputs.eks_cluster_name
+}
+
+module "argocd" {
+  source = "../../../modules/addons/argocd"
+}
+
+module "argocd-image-updater" {
+  source = "../../../modules/addons/argocd-image-updater"
 }
