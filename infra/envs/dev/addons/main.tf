@@ -40,3 +40,8 @@ module "argocd-image-updater" {
   source = "../../../modules/addons/argocd-image-updater"
   eks_cluster_name = data.terraform_remote_state.eks.outputs.eks_cluster_name
 }
+
+
+module "secrets_csi" {
+  source = "../../../modules/addons/secrets_csi_driver"
+}
